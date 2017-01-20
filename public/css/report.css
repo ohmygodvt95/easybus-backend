@@ -3,17 +3,17 @@ body, html {
 	min-height: 100% !important;
 }
 #map {
-	position: absolute;
-	left: 0;
-	right: 0;
 	display: block;
 	background-color: #093;
-	top: 0;
-	bottom: 0;
+    height: 600px;
+}
+
+.main{
+
 }
 .nav{
 	padding: 5px;
-	margin-top: 50px;
+
 	background-color: #fff;
 	height: 50px;
 	line-height: 42px;

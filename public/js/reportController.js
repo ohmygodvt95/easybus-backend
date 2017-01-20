@@ -1,87 +1,62 @@
-var app = angular.module('EasyBus', []);
-app.baseURL = $('base').attr('href');
+app.controller('ReportController',
+    function ($scope, $http, $timeout, Province, Busline, Report, Filter) {
 
-app.factory('Province', function($http, $q) {
-	return {
-		get: function() {
-			var deferred = $q.defer();
-			var promise = $http.get(app.baseURL + '/api/province').then(function(response) {
-				deferred.resolve(response.data);
-			});
-			return deferred.promise;
-		}
-	};
-});
+    $scope.static = {
+        provinces: [],
+        buslines: []
+    };
 
-app.factory('Busline', function($http, $q) {
-	return {
-		get: function(provinceID) {
-			var deferred = $q.defer();
-			var promise = $http.get(app.baseURL + '/api/busline?provinceID=' + provinceID).then(function(response) {
-				deferred.resolve(response.data);
-			});
-			return deferred.promise;
-		}
-	};
-});
+    /**
+     * init view
+     * @return void
+     */
+    $scope.init = function () {
 
-app.factory('Report', function($http, $q) {
-	return {
-		getUrl: function(URL) {
-			var deferred = $q.defer();
-			var promise = $http.get(URL).then(function(response) {
-				deferred.resolve(response.data);
-			});
-			return deferred.promise;
-		}
-	};
-});
+        Province.get().then(function (response) {
+            $scope.static.provinces = response;
+        });
 
-app.controller('ReportController', function($scope, $http, $timeout, Province, Busline, Report){
+        Report.getUrl(app.baseURL + '/api/report').then(function (response) {
+            $scope.reports = response;
+        });
+    };
+    /**
+     * Next page
+     * @return {Function} [description]
+     */
+    $scope.next = function () {
+        if ($scope.reports.next_page_url) {
+            Report.getUrl($scope.reports.next_page_url).then(function (response) {
+                $scope.reports = response;
+            });
+        }
+    };
+    /**
+     * Prev page
+     * @return {[type]} [description]
+     */
+    $scope.prev = function () {
+        if ($scope.reports.prev_page_url) {
+            Report.getUrl($scope.reports.prev_page_url).then(function (response) {
+                $scope.reports = response;
+            });
+        }
+    };
+    /**
+     * Filter report
+     * @param report
+     */
+    $scope.filter = function (report) {
+        Filter.get(report).then(function (response) {
+           $scope.filterResult = response;
+        });
+    };
 
-	$scope.static = {
-		provinces: [],
-		buslines: []
-	};
-
-	/**
-	 * init view
-	 * @return void
-	 */
-	$scope.init = function(){
-
-		Province.get().then(function(response) {
-			$scope.static.provinces = response;
-		});
-
-		Report.getUrl(app.baseURL + '/api/report').then(function(response) {
-			$scope.reports = response;
-		});
-	};
-	/**
-	 * Next page
-	 * @return {Function} [description]
-	 */
-	$scope.next = function() {
-		if($scope.reports.next_page_url){
-			Report.getUrl($scope.reports.next_page_url).then(function(response) {
-				$scope.reports = response;
-			});
-		}
-	};
-	/**
-	 * Prev page
-	 * @return {[type]} [description]
-	 */
-	$scope.prev = function() {
-		if($scope.reports.prev_page_url){
-			Report.getUrl($scope.reports.prev_page_url).then(function(response) {
-				$scope.reports = response;
-			});
-		}
-	};
-	// init run
-	$scope.init();
+    $scope.pluck = function (obj, field) {
+        return _.map(obj, field);
+    };
+    // init run
+    $scope.init();
 });
 
 // app.controller('ReportController', function($scope, $http, report) {
