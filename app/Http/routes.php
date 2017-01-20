@@ -10,9 +10,14 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('report', "ReportController@getIndex");
+
+Route::get('/', "ReportController@getIndex");
+Route::resource('busline', 'BuslineController');
 Route::group(['prefix' => 'api'], function () {
     Route::resource('report', 'ReportController');
+    Route::resource('busstop', 'BusStopController');
+    Route::resource('busline', 'BuslineController');
+    Route::resource('filter', 'FilterController');
 	Route::group(['prefix' => 'province'], function () {
 	    Route::get('/', "ProvinceController@index");
 	});
