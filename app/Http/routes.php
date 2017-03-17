@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', "ReportController@getIndex");
+Route::get('/', function (){
+    return redirect('/system');
+});
+Route::resource('/system', 'SystemController');
 Route::resource('busline', 'BuslineController');
 Route::group(['prefix' => 'api'], function () {
     Route::resource('report', 'ReportController');
@@ -22,3 +25,5 @@ Route::group(['prefix' => 'api'], function () {
 	    Route::get('/', "ProvinceController@index");
 	});
 });
+Route::resource('system', 'SystemController', ['only' => ['index', 'show']]);
+Route::resource('system.userreport', 'UserReportController', ['only' => ['index', 'show']]);

@@ -1,6 +1,6 @@
 app.controller(
     'BuslineController',
-    function ($scope, $http, $timeout, Province, Busline, Report, Filter, BusStop) {
+    function ($scope, $http, $timeout, Province, Busline, Report, Filter, BusStop, $location) {
 
         var mapOptions = {
             zoom: 16,
@@ -91,6 +91,7 @@ app.controller(
          * @param data
          */
         function busLinePreview(data) {
+            console.log(data);
             clearMap();
             for (var i = 0; i < data.length; i++) {
                 var latLng = data[i].location.split("|");
@@ -126,6 +127,55 @@ app.controller(
             });
         }
 
+        $scope.addMarker = function (station) {
+            console.log(station);
+            var latLng = station.new_location.split("|");
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: parseFloat(latLng[0]),
+                    lng: parseFloat(latLng[1])
+                },
+                title: station.code + ' | ' + station.new_address_name,
+                map: $scope.map,
+                clickable: true,
+                info: new google.maps.InfoWindow({
+                    content: station.new_address_name
+                }),
+                icon:'/images/bus-del.png'
+            });
+            $scope.markers.push(marker);
+            $scope.map.setCenter({
+                lat: parseFloat(latLng[0]),
+                lng: parseFloat(latLng[1])
+            });
+        };
+
+        $scope.addOne = function (report) {
+            var data = {
+                action: 'add',
+                reports: $('.reports').val(),
+                target: report.id,
+                route: $('.route').val()
+            };
+            Busline.update($scope.busline.busLine.code, JSON.stringify(data)).then(function () {
+                alert('Thêm mới busStop thành công!');
+                $location.path('/');
+            });
+        };
+
+        $scope.addAverage = function () {
+            var data = {
+                action: 'add',
+                reports: $('.reports').val(),
+                target: 'all',
+                route: $('.route').val(),
+                new_address_name: $scope.new_address_name
+            };
+            Busline.update($scope.busline.busLine.code, JSON.stringify(data)).then(function () {
+                alert('Thêm mới busStop thành công bằng tính trung bình!');
+                $location.path('/');
+            });
+        };
         /**
          * focus location on map
          * @param busStopCode
@@ -143,13 +193,14 @@ app.controller(
          * delete
          */
         $scope.delete = function () {
-            Busline.update($scope.busline.busline.code,{
+            Busline.update($scope.busline.busLine.code,{
                 action: 'delete',
                 reports: $('.reports').val(),
                 target: $('.target').val(),
                 route: $('.route').val()
             }).then(function () {
-                alert(1);
+                alert("Xóa thành công điểm bus");
+                $location.path('/');
             });
         };
         /**

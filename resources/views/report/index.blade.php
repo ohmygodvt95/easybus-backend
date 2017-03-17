@@ -45,7 +45,7 @@
                         </b>
                     </p>
                     <div class="list-group-item-text">
-                        <div class="text-success" ng-if="report.add_station.length > 0">Thêm: @{{ report.add_station.length }} điểm: [@{{ report.add_station.toString() }}]</div>
+                        <div class="text-success" ng-if="report.add_station.length > 0">Thêm: @{{ report.add_station.length }} điểm</div>
                         <div class="text-danger" ng-if="report.delete_station.length > 0">Xóa : @{{ report.delete_station.length }} điểm [@{{ report.delete_station.toString() }}]</div>
                     </div>
                 </a>
@@ -70,12 +70,13 @@
                     <div class="panel-heading">Add request</div>
                     <div class="panel-body" ng-repeat="group in filterResult.recommendAddGroup">
                         <hr>
-                        <b>Xử lý nhóm request @{{ $index + 1 }}</b>
+                        <a href="/busline/@{{ filterResult.report.busline_id }}/edit?reports=[@{{ pluck(group.data, 'id')
+                        .toString() }}]&action=add&route=@{{ filterResult.report.route }}">Xử lý nhóm request @{{ $index + 1 }}</a>
                         <p>Code: @{{ group.busStop.code }} - @{{ group.busStop.address_name }}</p>
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="item in group.data">
                                 @{{ item.id }}
-                                - Ds các điểm muốn thêm [@{{ item.add_station.toString() }}]
+                                - Ds các điểm muốn thêm [@{{ item.add_station.length }}]
                             </li>
                         </ul>
                     </div>

@@ -16,7 +16,8 @@ app.factory('Busline', function ($http, $q) {
         },
         update: function (buslineId, data) {
             var deferred = $q.defer();
-            var promise = $http.put(app.baseURL + '/api/busline/' + buslineId, data).then(function (response) {
+            var promise = $http.patch(app.baseURL + '/api/busline/' + buslineId, data
+            ).then(function (response) {
                 deferred.resolve(response.data);
             });
             return deferred.promise;

@@ -14,8 +14,9 @@ class UserReport extends Model
         'delete_station' => 'array'
     ];
 
-    public function busline()
+    public function busLine()
 	{
-	    return $this->belongsTo('App\Busline', 'busline_id', 'code');
+	    return $this->belongsTo(BusLine::class, 'busline_id', 'code');
 	}
+
 }
