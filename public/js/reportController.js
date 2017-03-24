@@ -56,7 +56,7 @@ app.controller('ReportController',
         return _.map(obj, field);
     };
     // init run
-    $scope.init();
+    // $scope.init();
 });
 
 // app.controller('ReportController', function($scope, $http, report) {

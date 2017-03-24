@@ -6,7 +6,7 @@
         <title>UserReport</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('components/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('components/font-awesome/css/font-awesome.min.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/report.css') }}">
 		<base href="{{ url("/") }}">
@@ -34,10 +34,12 @@
                 <button type="submit">Tìm</button>
             </form>
             <hr>
-            <button ng-click="prev()" class="btn btn-primary">Prev</button> @{{ reports.current_page }} / @{{ reports.last_page }} <button ng-click="next()"  class="btn btn-primary">Next</button>
+            <button ng-click="prev()" class="btn btn-primary">Prev</button>
+            @{{ reports.current_page }} / @{{ reports.last_page }} <button ng-click="next()"  class="btn btn-primary">Next</button>
             <hr>
             <div class="list-group col-sm-6">
-                <a href="#" class="list-group-item" ng-repeat="report in reports.data" ng-click="filter(report)">
+                <a href="#" class="list-group-item" ng-repeat="report in reports.data"
+                    ng-click="filter(report)">
                     <p class="list-group-item-heading">
                         <b>
                             @{{ report.busline_id }} - @{{ report.busline.name }}
@@ -45,8 +47,12 @@
                         </b>
                     </p>
                     <div class="list-group-item-text">
-                        <div class="text-success" ng-if="report.add_station.length > 0">Thêm: @{{ report.add_station.length }} điểm: [@{{ report.add_station.toString() }}]</div>
-                        <div class="text-danger" ng-if="report.delete_station.length > 0">Xóa : @{{ report.delete_station.length }} điểm [@{{ report.delete_station.toString() }}]</div>
+                        <div class="text-success" ng-if="report.add_station.length > 0">
+                            Thêm: @{{ report.add_station.length }} điểm
+                        </div>
+                        <div class="text-danger" ng-if="report.delete_station.length > 0">
+                            Xóa : @{{ report.delete_station.length }} điểm [@{{ report.delete_station.toString() }}]
+                        </div>
                     </div>
                 </a>
             </div>
@@ -56,7 +62,9 @@
                 	<div class="panel-body" ng-repeat="group in filterResult.recommendDeleteGroup">
                         <hr>
                         <a href="/busline/@{{ filterResult.report.busline_id }}/edit?reports=[@{{ pluck(group.data, 'id')
-                        .toString() }}]&action=delete&target=@{{ group.busStop.code }}&route=@{{ filterResult.report.route }}">Xử lý nhóm request @{{ $index + 1 }}</a>
+                        .toString() }}]&action=delete&target=@{{ group.busStop.code }}&route=@{{ filterResult.report.route }}">
+                            Xử lý nhóm request @{{ $index + 1 }}
+                        </a>
                         <p>Code: @{{ group.busStop.code }} - @{{ group.busStop.address_name }}</p>
                         <ul class="list-group">
                         	<li class="list-group-item" ng-repeat="item in group.data">
@@ -66,27 +74,30 @@
                         </ul>
                 	</div>
                 </div>
-                <div class="panel panel-success" ng-if="filterResult.recommendAddGroup.length > 0">
+                <div class="panel panel-success"
+                    ng-if="filterResult.recommendAddGroup.length > 0">
                     <div class="panel-heading">Add request</div>
-                    <div class="panel-body" ng-repeat="group in filterResult.recommendAddGroup">
+                    <div class="panel-body"
+                        ng-repeat="group in filterResult.recommendAddGroup">
                         <hr>
-                        <b>Xử lý nhóm request @{{ $index + 1 }}</b>
+                        <a href="/busline/@{{ filterResult.report.busline_id }}/edit?reports=[@{{ pluck(group.data, 'id')
+                        .toString() }}]&action=add&route=@{{ filterResult.report.route }}">Xử lý nhóm request @{{ $index + 1 }}</a>
                         <p>Code: @{{ group.busStop.code }} - @{{ group.busStop.address_name }}</p>
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="item in group.data">
                                 @{{ item.id }}
-                                - Ds các điểm muốn thêm [@{{ item.add_station.toString() }}]
+                                - Ds các điểm muốn thêm [@{{ item.add_station.length }}]
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-      	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+      	<script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('components/lodash/dist/lodash.min.js') }}"></script>
         {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6hSkhk2QfFbInDsa1mJlvqjzSjjIfpY0" type="text/javascript"></script> --}}
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js" type="text/javascript" ></script>
+		<script src="{{ asset('components/angular/angular.min.js') }}" type="text/javascript" ></script>
         <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/factory/buslineFactory.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/factory/provinceFactory.js') }}" type="text/javascript"></script>

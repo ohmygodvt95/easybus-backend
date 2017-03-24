@@ -33,11 +33,23 @@ class ReportController extends Controller
         $stations_delete = [];
         $stations_add = [];
 
+        $i = 0;
         foreach ($data->list_bus_stop as $station) {
             if ($station->report_type == "delete")
                 array_push($stations_delete, intval($station->code));
-            else if ($station->report_type == "add")
-                array_push($stations_add, intval($station->code));
+            else if ($station->report_type == "add"){
+                if ($i == 0){
+                    array_push($stations_add, ['first', $station->code.$i.$data->list_bus_stop[$i + 1]->code, $station]);
+                }
+                else if($i == count($data->list_bus_stop) - 1){
+                    array_push($stations_add, ['last', $data->list_bus_stop[$i + 1]->code.$station->code,$station]);
+                }
+                else{
+                    array_push($stations_add, ['mid', $data->list_bus_stop[$i - 1]->code.$data->list_bus_stop[$i + 1]->code,
+                        $station, $data->list_bus_stop[$i - 1], $data->list_bus_stop[$i + 1]]);
+                }
+            }
+            $i++;
         }
 
         $report->delete_station = $stations_delete;

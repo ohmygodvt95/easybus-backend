@@ -8,14 +8,14 @@ class UserReport extends Model
 {
     protected $table = "userreport";
 
-    public $timestamps = false;
     protected $casts = [
         'add_station' => 'array',
         'delete_station' => 'array'
     ];
 
-    public function busline()
+    public function busLine()
 	{
-	    return $this->belongsTo('App\Busline', 'busline_id', 'code');
+	    return $this->belongsTo(BusLine::class, 'busline_id', 'code');
 	}
+
 }

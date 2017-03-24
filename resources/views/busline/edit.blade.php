@@ -19,7 +19,7 @@
 
 <div class="container-fluid main" ng-controller="BuslineController">
     <div>
-        <input type="text" class="busline" value="{{ $busline }}" title="">
+        <input type="text" class="busline" value="{{ $busLine }}" title="">
         <input type="text" class="reports" value="{{ $reports }}" title="">
         <input type="text" class="action" value="{{ $action }}" title="">
         <input type="text" class="target" value="{{ $target }}" title="">
@@ -28,16 +28,27 @@
     <div class="col-sm-3">
         <div class="list-group">
         	<a class="list-group-item active">
-        		<h4 class="list-group-item-heading">Tuyến : @{{ busline.busline.code }}</h4>
-        		<p class="list-group-item-text">@{{ busline.busline.name }}</p>
+        		<h4 class="list-group-item-heading">Tuyến : @{{ busline.busLine.code }}</h4>
+        		<p class="list-group-item-text">@{{ busline.busLine.name }}</p>
         	</a>
             <a class="list-group-item">
-                <h4 class="list-group-item-heading">Có <b>@{{ reports.length }}</b> yêu cầu {{ $action }} <b ng-click="focus( {{ $target }} )">{{ $target }}</b></h4>
+                <h4 class="list-group-item-heading"> * Có <b>@{{ reports.length }}</b> yêu cầu {{ $action }} <b ng-click="focus( {{ $target }} )">{{ $target }}</b></h4>
                 <p class="list-group-item-text">{{ $reports }}</p>
+            </a>
+            <a class="list-group-item" ng-repeat="report in reports" ng-if="'{{ $action }}' == 'add'" ng-click="addMarker(report.add_station[0][2])">
+                <h4 class="list-group-item-heading">@{{ report.add_station[0][2].new_address_name }}</h4>
+                <p class="list-group-item-text">
+                    @{{ report.add_station[0][2].code }}
+                    <span class="pull-right" ng-click="addOne(report)">Thêm mới</span>
+                </p>
             </a>
         </div>
         <hr>
         <button class="btn btn-primary" ng-click="delete()" ng-if="'{{ $action }}' == 'delete'">Approve</button>
+        <input class="form-control" ng-model="new_address_name" ng-if="'{{ $action }}' == 'add'" placeholder="New Name">
+        <button class="btn btn-primary" ng-click="addAverage()" ng-if="'{{ $action }}' == 'add'">Thêm mới sử dụng trung bình</button>
+        <hr>
+        <a href="{{ URL::previous() }}">Go back</a>
     </div>
     <div class="col-sm-9" id="map">
 

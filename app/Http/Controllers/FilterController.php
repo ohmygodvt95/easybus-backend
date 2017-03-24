@@ -31,7 +31,7 @@ class FilterController extends Controller
             $line = UserReport::where('busline_id', $report->busline_id)
                 ->where('status', 'new_report')
                 ->where('route', $report->route)
-                ->where('add_station', 'like', "%$element%")
+                ->where('add_station', 'like', "%$element[1]%")
                 ->get(['id', 'busline_id', 'route', 'add_station']);
             if($line)
                 array_push($recommendGroupAddReports,
