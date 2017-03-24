@@ -11,10 +11,9 @@
 |
 */
 
-Route::get('/', function (){
-    return redirect('/system');
-});
-Route::resource('/system', 'SystemController');
+Route::get('/', 'HomeController@index');
+Route::resource('events', 'EventsController');
+Route::resource('system', 'SystemController');
 Route::resource('busline', 'BuslineController');
 Route::group(['prefix' => 'api'], function () {
     Route::resource('report', 'ReportController');

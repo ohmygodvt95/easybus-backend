@@ -14,5 +14,11 @@
     "public/components/",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "lodash": "^4.17.4",
+    "angular": "angularjs#^1.6.3",
+    "bootstrap-datepicker": "^1.6.4"
+  }
 }

@@ -6,7 +6,7 @@
         <title>{{ $pageTitle or 'Easybus management system' }}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('components/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('components/font-awesome/css/font-awesome.min.css') }}">
         @yield('css')
         <base href="{{ url("/") }}">
@@ -18,8 +18,8 @@
         <![endif]-->
         @include('layouts.header')
         @yield('content')
-        <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         @yield('js')
     </body>
 </html>

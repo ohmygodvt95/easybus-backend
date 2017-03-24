@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('css')
+    <link rel="stylesheet" href="{{ asset('components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @endsection
 @section('content')
     <div class="container" xmlns="a" ng-app="EasyBus">
@@ -14,6 +15,71 @@
                 <h2 class="text-center"> Province: {{ $province->name }} | <span class="text-primary">User report</span></h2>
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                                <tr>
+
+                                    <form action="{{ Request::path() }}" method="GET">
+                                        <td>
+                                            <h6>Hiển thị</h6>
+                                            <select name="per_page" id="" title="Perpage" class="form-control">
+                                                <option value="@{{ per }}" ng-repeat="per in [10, 15, 20, 25, 30, 35, 40]">@{{ per }}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <h6>Tuyến</h6>
+                                            <select name="busline_id" id="" title="busline_id" class="form-control btn-sm">
+                                                <option value="">Toàn bộ</option>
+                                                @foreach($province->busLine()->get(['code', 'name']) as $e)
+                                                    <option value="{{ $e->code }}">{{ $e->code }} - {{ $e->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+
+                                        <td>
+                                            <h6>Chiều</h6>
+                                            <select name="route" id="" title="route" class="form-control btn-sm">
+                                                <option value="">Toàn bộ</option>
+                                                <option value="go">Chiều đi</option>
+                                                <option value="return">Chiều về</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <h6>Trạng thái</h6>
+                                            <select name="status" title="route" class="form-control btn-sm">
+                                                <option value="">Toàn bộ</option>
+                                                <option value="new_report"
+                                                    {{ Request::get('status') == 'new_report' ? 'selected' : '' }}>Chưa xử lý</option>
+                                                <option value="progress_report"
+                                                    {{ Request::get('status') == 'progress_report' ? 'selected' : '' }}>Đang xử lý</option>
+                                                <option value="success_report"
+                                                    {{ Request::get('status') == 'success_report' ? 'selected' : '' }}>Đã xử lý</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <h6>From date</h6>
+                                            <input name="from" data-provide="datepicker" placeholder="From date"
+                                                data-date-format="yyyy-mm-dd" title="From" class="form-control"
+                                               value="{{ Request::get('from') }}"
+                                            />
+                                        </td>
+                                        <td>
+                                            <h6>To date</h6>
+                                            <input name="to" data-provide="datepicker" class="form-control"
+                                                data-date-format="yyyy-mm-dd" title="to" placeholder="To date"
+                                                value="{{ Request::get('to') }}"
+                                            />
+                                        </td>
+                                        <td>
+                                            <h6>Action</h6>
+                                            <button type="submit" class="btn btn-primary btn-sm">Lọc</button>
+                                        </td>
+                                    </form>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="{{ url('/system/'.$province->id."/userreport") }}">Xóa bộ lọc</a>
                         <table class="table table-bordered table-hover table-striped">
                         	<thead>
                         		<tr>
@@ -26,36 +92,6 @@
                         		</tr>
                         	</thead>
                         	<tbody>
-                                <tr>
-                                    <form action="{{ Request::path() }}" method="GET">
-                                        <td>Bộ lọc</td>
-                                        <td colspan="2">
-                                            <select name="busline_id" id="" title="busline_id" class="form-control btn-sm">
-                                                <option value="">Toàn bộ</option>
-                                                @foreach($province->busLine()->get(['code', 'name']) as $e)
-                                                    <option value="{{ $e->code }}">{{ $e->code }} - {{ $e->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-
-                                        <td>
-                                            <select name="route" id="" title="route" class="form-control btn-sm">
-                                                <option value="">Toàn bộ</option>
-                                                <option value="go">Chiều đi</option>
-                                                <option value="return">Chiều về</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select name="status" id="" title="route" class="form-control btn-sm">
-                                                <option value="">Toàn bộ</option>
-                                                <option value="new_report">Chưa xử lý</option>
-                                                <option value="progress_report">Đang xử lý</option>
-                                                <option value="success_report">Đã xử lý</option>
-                                            </select>
-                                        </td>
-                                        <td><button type="submit" class="btn btn-primary btn-sm btn-block">Lọc</button></td>
-                                    </form>
-                                </tr>
                                 @foreach($reports as $report)
                                     <tr>
                                         <td>{{ $report->email }}</td>
@@ -109,8 +145,9 @@
     </div>
 @endsection
 @section('js')
-    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js" type="text/javascript" ></script>
+    <script src="{{ asset('components/lodash/dist/lodash.min.js') }}"></script>
+    <script src="{{ asset('components/angular/angular.min.js') }}" type="text/javascript" ></script>
+    <script src="{{ asset('components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/factory/buslineFactory.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/factory/provinceFactory.js') }}" type="text/javascript"></script>

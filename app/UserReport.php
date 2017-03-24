@@ -8,7 +8,6 @@ class UserReport extends Model
 {
     protected $table = "userreport";
 
-    public $timestamps = false;
     protected $casts = [
         'add_station' => 'array',
         'delete_station' => 'array'
