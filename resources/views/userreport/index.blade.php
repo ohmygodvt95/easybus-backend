@@ -18,7 +18,6 @@
                         <table class="table table-bordered table-hover">
                             <tbody>
                                 <tr>
-
                                     <form action="{{ Request::path() }}" method="GET">
                                         <td>
                                             <h6>Hiển thị</h6>

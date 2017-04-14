@@ -10,7 +10,7 @@ use App\Http\Requests;
 
 class UserReportController extends Controller
 {
-    private $perPage = 2;
+    private $perPage = 10;
 
     public static function status($string)
     {

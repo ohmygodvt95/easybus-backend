@@ -15,7 +15,7 @@ class BusLineController extends Controller
     public function edit(Request $request)
     {
 
-    	return view('busLine.edit', [
+    	return view('busline.edit', [
     	    'busLine' => $request->busline,
     	    'reports' => $request->reports,
             'action' => $request->action,
