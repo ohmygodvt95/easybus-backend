@@ -17,6 +17,7 @@ Route::resource('system', 'SystemController');
 Route::resource('busline', 'BuslineController');
 Route::group(['prefix' => 'api'], function () {
     Route::resource('report', 'ReportController');
+    Route::resource('contributes', 'UserContributesController', ['only' => ['store']]);
     Route::resource('busstop', 'BusStopController');
     Route::resource('busline', 'BuslineController');
     Route::resource('filter', 'FilterController');
