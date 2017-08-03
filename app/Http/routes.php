@@ -24,6 +24,7 @@ Route::group(['prefix' => 'api'], function () {
 	Route::group(['prefix' => 'province'], function () {
 	    Route::get('/', "ProvinceController@index");
 	});
+    Route::resource('events', 'ApiEventsController', ['only' => ['index']]);
 });
 Route::resource('system', 'SystemController', ['only' => ['index', 'show']]);
 Route::resource('system.userreport', 'UserReportController', ['only' => ['index', 'show']]);
